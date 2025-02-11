@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StockAPI.Data;
 using StockAPI.DTos.Stock;
 using StockAPI.Mappers;
@@ -16,16 +17,18 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var stocks = _context.Stock.ToList().Select(s => s.ToStockDto()); // ToList is deferred execution - it actually executes the sql.
+            //var stocks = _context.Stock.ToList().Select(s => s.ToStockDto()); // ToList is deferred execution - it actually executes the sql.
+            var stocks = await _context.Stock.ToListAsync();
+            var stocksDto = stocks.Select(s => s.ToStockDto());
             return Ok(stocks);
         }
 
         [HttpGet("{id}")] // use model binding to extract the id from the route
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var stock = _context.Stock.Find(id);
+            var stock = await _context.Stock.FindAsync(id);
             if (stock == null)
             {
                 return NotFound();
