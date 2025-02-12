@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockAPI.DTos.Comment;
 using StockAPI.Interfaces;
 using StockAPI.Mappers;
@@ -18,6 +19,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             if(!ModelState.IsValid)
@@ -32,6 +34,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,6 +52,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpPost("{stockId:int}")]
+        [Authorize]
         public async Task<IActionResult> Create([FromRoute] int stockId, CreateCommentDto commentDto)
         {
             if (!ModelState.IsValid)
@@ -68,6 +72,7 @@ namespace StockAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -86,6 +91,7 @@ namespace StockAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)

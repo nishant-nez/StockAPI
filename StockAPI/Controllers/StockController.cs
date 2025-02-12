@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockAPI.Data;
 using StockAPI.DTos.Stock;
@@ -21,6 +22,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
@@ -34,6 +36,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpGet("{id:int}")] // use model binding to extract the id from the route
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -53,6 +56,7 @@ namespace StockAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
         {
             if (!ModelState.IsValid)
@@ -67,6 +71,7 @@ namespace StockAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -87,6 +92,7 @@ namespace StockAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)
