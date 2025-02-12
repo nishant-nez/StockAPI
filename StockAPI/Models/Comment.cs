@@ -12,5 +12,7 @@ namespace StockAPI.Models
         public int? StockId { get; set; }
         // navigation property - allows to access the stock properties
         public Stock? Stock { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
     }
 }

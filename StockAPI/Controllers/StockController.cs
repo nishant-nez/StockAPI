@@ -31,8 +31,8 @@ namespace StockAPI.Controllers
             }
 
             var stocks = await _stockRepo.GetAllAsync(query);
-            var stocksDto = stocks.Select(s => s.ToStockDto());
-            return Ok(stocks);
+            var stocksDto = stocks.Select(s => s.ToStockDto()).ToList();
+            return Ok(stocksDto);
         }
 
         [HttpGet("{id:int}")] // use model binding to extract the id from the route
