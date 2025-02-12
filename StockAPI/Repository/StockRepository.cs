@@ -35,17 +35,22 @@ namespace StockAPI.Repository
 
         public async Task<List<Stock>> GetAllAsync()
         {
-            return await _context.Stock.ToListAsync();
+            return await _context.Stock.Include(c => c.Comments).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
         {
-            var stockModel = await _context.Stock.FirstOrDefaultAsync(x => x.Id == id);
+            var stockModel = await _context.Stock.Include(c => c.Comments).FirstOrDefaultAsync(x => x.Id == id);
             if (stockModel == null)
             {
                 return null;
             }
             return stockModel;
+        }
+
+        public Task<bool> StockExists(int id)
+        {
+            return _context.Stock.AnyAsync(x => x.Id == id);
         }
 
         public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto stockDto)
